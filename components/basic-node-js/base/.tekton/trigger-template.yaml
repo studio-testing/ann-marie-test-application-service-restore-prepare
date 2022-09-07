@@ -46,5 +46,8 @@ spec:
         persistentVolumeClaim:
           claimName: appstudio
         subPath: basic-node-js/$(tt.params.git-revision)
+      - name: registry-auth
+        secret:
+          secretName: redhat-appstudio-registry-pull-secret
     status: {}
 status: {}
