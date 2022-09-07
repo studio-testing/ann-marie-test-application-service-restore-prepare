@@ -1,0 +1,22 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    build.appstudio.openshift.io/application: ann-marie-test
+    build.appstudio.openshift.io/build: "true"
+    build.appstudio.openshift.io/component: basic-node-js
+    build.appstudio.openshift.io/type: build
+    build.appstudio.openshift.io/version: "0.1"
+    pipelines.appstudio.openshift.io/type: build
+  creationTimestamp: null
+  name: elbasic-node-js
+  namespace: application-service
+spec:
+  path: /
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: el-basic-node-js
+    weight: null
+status: {}
