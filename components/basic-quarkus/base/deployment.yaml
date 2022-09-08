@@ -26,5 +26,8 @@ spec:
       - image: https://quay.io/repository/afred/gitops-preview:application-service-basic-quarkus
         imagePullPolicy: Always
         name: container-image
-        resources: {}
+        resources:
+          requests:
+            cpu: 120m
+            memory: 512Mi
 status: {}
