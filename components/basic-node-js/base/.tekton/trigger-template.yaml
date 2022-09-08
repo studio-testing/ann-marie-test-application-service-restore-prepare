@@ -1,0 +1,53 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  creationTimestamp: null
+  name: basic-node-js
+  namespace: application-service
+spec:
+  params:
+  - name: git-revision
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      annotations:
+        build.appstudio.openshift.io/application: ann-marie-test
+        build.appstudio.openshift.io/build: "true"
+        build.appstudio.openshift.io/component: basic-node-js
+        build.appstudio.openshift.io/type: build
+        build.appstudio.openshift.io/version: "0.1"
+        pipelines.appstudio.openshift.io/type: build
+      creationTimestamp: null
+      generateName: basic-node-js-
+      labels:
+        build.appstudio.openshift.io/application: ann-marie-test
+        build.appstudio.openshift.io/build: "true"
+        build.appstudio.openshift.io/component: basic-node-js
+        build.appstudio.openshift.io/type: build
+        build.appstudio.openshift.io/version: "0.1"
+        pipelines.appstudio.openshift.io/type: build
+      namespace: application-service
+    spec:
+      params:
+      - name: git-url
+        value: https://github.com/nodeshift-starters/devfile-sample.git
+      - name: output-image
+        value: quay.io/afred/gitops-preview:application-service-basic-node-js-$(tt.params.git-revision)
+      - name: dockerfile
+        value: Dockerfile
+      - name: path-context
+        value: .
+      pipelineRef:
+        bundle: quay.io/redhat-appstudio/build-templates-bundle:510fa6e99f1fa1f816c96354bbaf1ad155c6d9c3
+        name: docker-build
+      workspaces:
+      - name: workspace
+        persistentVolumeClaim:
+          claimName: appstudio
+        subPath: basic-node-js/$(tt.params.git-revision)
+      - name: registry-auth
+        secret:
+          secretName: redhat-appstudio-registry-pull-secret
+    status: {}
+status: {}
