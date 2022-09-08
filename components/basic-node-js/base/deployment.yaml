@@ -26,5 +26,8 @@ spec:
       - image: quay.io/afred/gitops-preview:application-service-basic-node-js
         imagePullPolicy: Always
         name: container-image
-        resources: {}
+        resources:
+          requests:
+            cpu: 30m
+            memory: 512Mi
 status: {}
